@@ -1,6 +1,6 @@
 <template>
-  <div class="card" style="position:relative">
-    <div class="card" style="position:absolute"><h1 class="title" :id="id">{{ msg }}</h1></div>
+  <div :id="id" class="card" style="position:relative" @click="GetToPage(id)">
+    <div class="card" style="position:absolute; top:0;"><h1 class="title" :class="{onepage:isClicked}">{{ msg }}</h1></div>
     
     
    <img :src="image" class="background">
@@ -10,6 +10,7 @@
 <script>
 // import axios from 'axios'
 // import {getImageRandom} from '@/services/api/pixabayApi.js'
+
 export default {
   name: 'MenuChoice',
   props: {
@@ -17,10 +18,13 @@ export default {
     image: String,
     id: String
   },
+  components: {
+  },
   data() {
         return {
           imageData:[],
           url:null,
+          isClicked : false,
         }
       },
   // created() {
@@ -40,20 +44,33 @@ export default {
     let hello = document.querySelectorAll('.card .card')[1];
     let elem = document.getElementsByClassName('title')[0];
     hello.addEventListener("mouseover", function(){
-      console.log(hello)
+      //console.log(hello)
       elem.style.opacity = "0";
     })
     document.querySelectorAll('.card .card')[0].addEventListener("mouseover", function() {
-      console.log(document.querySelectorAll('.homePage .card')[0])
+      //console.log(document.querySelectorAll('.homePage .card')[0])
       elem.style.opacity = "1";
     })
 
     document.querySelectorAll('.card .card')[1].addEventListener("mouseleave", function() {
-      console.log(document.querySelectorAll('.homePage .card')[1])
+      //console.log(document.querySelectorAll('.homePage .card')[1])
       elem.style.opacity = "1";
     })
   },
   methods: {
+    GetToPage : function(id){
+      console.log("hello on vient de cliquer " + id);
+        // this.isClicked = !this.isClicked;
+        this.isClicked = true;
+        this.$emit("MoodBoardIsClicked", this.isClicked);
+        let element = document.getElementById(id);
+        element.classList.add("onepage");
+        document.getElementById('app').classList.add('home');
+        // element.style.overflowY = "visible";
+        if(id == "title1"){
+           document.getElementById("title2").classList.add("disabled");
+        }
+    },
   }
 }
 
@@ -82,12 +99,28 @@ a {
     justify-content: center;
     align-items: center;
     overflow: hidden;
-    transition: width 5s ease;
+    transition: width 4s ease, height 4s ease 4s;
 }
 
 .card:hover{
   width:300vw;
 }
+
+.onepage{
+  width:100vw; 
+}
+
+.disabled{
+  width:0vw;
+}
+
+.disabledHover{
+  width:100vw;
+  height: 200vh;
+  align-items: start;
+  flex-direction: column;
+}
+
 .background{
   flex-shrink: 0;
   width: 120vw;
@@ -102,6 +135,7 @@ a {
   max-width:max-content;
   text-shadow: black 0.1em 0.1em 0.2em
 }
+
 
 .card:hover ~ div.card .title{
   opacity:0;
