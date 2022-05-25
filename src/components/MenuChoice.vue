@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="card" style="position:relative" @click="GetToPage(id)">
+  <div :id="id" class="card" style="position:relative" @click="GetToPage(id, eventTriggeredOnClick)">
     <div class="card" style="position:absolute; top:0;"><h1 class="title" :class="{onepage:isClicked}">{{ msg }}</h1></div>
     
     
@@ -8,15 +8,13 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import {getImageRandom} from '@/services/api/pixabayApi.js'
-
 export default {
   name: 'MenuChoice',
   props: {
     msg: String,
     image: String,
-    id: String
+    id: String,
+    eventTriggeredOnClick:String,
   },
   components: {
   },
@@ -27,19 +25,6 @@ export default {
           isClicked : false,
         }
       },
-  // created() {
-  //   this.retrieveImageRandom()
-  //   // axios
-  //   //     .get(
-  //   //         'https://api.unsplash.com/photos/random/?client_id=QCpQmMd34xHiP1qm3UlvbOFySNj3GamhpHOCxVwUurg')
-  //   //     .then(response => (this.url = response.data.urls.full));
-  // },
-  // methods: {
-  //   async retrieveImageRandom(){
-  //       this.imageData = await getImageRandom(axios)
-  //       this.url = this.imageData.data.urls.full
-  //   }
-  // }
   mounted(){
     let hello = document.querySelectorAll('.card .card')[1];
     let elem = document.getElementsByClassName('title')[0];
@@ -48,27 +33,26 @@ export default {
       elem.style.opacity = "0";
     })
     document.querySelectorAll('.card .card')[0].addEventListener("mouseover", function() {
-      //console.log(document.querySelectorAll('.homePage .card')[0])
       elem.style.opacity = "1";
     })
 
     document.querySelectorAll('.card .card')[1].addEventListener("mouseleave", function() {
-      //console.log(document.querySelectorAll('.homePage .card')[1])
       elem.style.opacity = "1";
     })
   },
   methods: {
-    GetToPage : function(id){
-      console.log("hello on vient de cliquer " + id);
-        // this.isClicked = !this.isClicked;
+    GetToPage : function(id, eventCliked){       
         this.isClicked = true;
-        this.$emit("MoodBoardIsClicked", this.isClicked);
+        if(eventCliked == "MoodBoardIsClicked")this.$emit("MoodBoardIsClicked", this.isClicked);
+        if(eventCliked == "InspirationsIsClicked")this.$emit("InspirationsIsClicked", this.isClicked);
         let element = document.getElementById(id);
         element.classList.add("onepage");
         document.getElementById('app').classList.add('home');
-        // element.style.overflowY = "visible";
+        
         if(id == "title1"){
            document.getElementById("title2").classList.add("disabled");
+        }else{
+          document.getElementById("title1").classList.add("disabled");
         }
     },
   }
@@ -78,20 +62,6 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
 .card{
     height:100vh;
     width:50vw;
@@ -128,8 +98,8 @@ a {
 .title{
   /*position:absolute;*/
   color:white;
-  /*background-color:rgba(0, 0, 0, 0.41);*/
-  padding-top: 1vh;
+  background-color:rgba(0, 0, 0, 0.2);
+  padding: 1vh;
   opacity:1;
   transition: opacity 2s ease;
   max-width:max-content;
@@ -141,10 +111,30 @@ a {
   opacity:0;
 }
 
-/*#title1{
-  max-width:25vw;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}*/
+@media screen and (max-width:640px){
+  .card {
+    height: 50vh;
+    width: 100vw;
+    transition:none;
+  }
+  .homePage .card:hover{
+    width:100vw;
+    height:50vh;
+  }
+  /* .homePage > .card:hover .card{
+    height:100%;
+  } */
+  .onepage{
+    height:100vh;
+  }
+  .disabled{
+    height:0vh;
+    width:100vw;
+  }
+  .background{
+    object-fit: cover;
+    height: 50vh;
+    width:100vw;
+  }
+}
 </style>

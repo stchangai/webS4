@@ -11,18 +11,8 @@
         </div>
     </div>
     <Filtre title='couleur' idElement='colorfilter' />
-    <!--<div id="colorfilter">
-      <span>couleur</span>
-          <ColorChip />
-    </div>-->
-    <Filtre idElement="typefilter" title="size of images" />
-    <!--<div id="typefilter">
-      <span>type</span>
-    </div>-->
-    <Filtre idElement="nbImagesfilter" title="nombre d'images" />
-    <!--<div id="typefilter">
-      <span>type</span>
-    </div>-->
+    <Filtre idElement="nbImagesfilter" title="nb images" />
+  
     <div class="resetfilter">
       <button v-on:click="resetFilter" class="reset">RESET</button>
     </div>
@@ -33,9 +23,6 @@
 import Filtre from './Filtre.vue'
 export default {
   name: 'filters',
-  props: {
-    // msg: String
-  },
   components: {
     Filtre
   },
@@ -43,7 +30,6 @@ export default {
     return{
       keywords:"",
       words : [],
-
     }
   },
   methods:{
@@ -56,6 +42,9 @@ export default {
       this.$root.$emit("ResetFilters", '');
       this.keywords='';
       this.words=[];
+      this.heightData="0";
+      this.widthData="0";
+      console.log(this.heightData)
     },
     deleteKeyword:function(value){
       this.words.splice(this.words.findIndex(element => element == value),1);
@@ -72,11 +61,13 @@ export default {
 <style scoped>
 #filters{
   height:75vh;
-  width:20vw;
+  /* width:20vw; */
+  width:268px;
   margin-bottom: 10vh;
   font-family: "Raleway";
   font-weight:400;
-  color: #545459;
+  /* color: #545459; */
+  color:white;
   display: flex;
   flex-direction: column;
   margin-right:2vw;
@@ -99,6 +90,7 @@ div{
   border-bottom: solid 1px gray !important;
   border: none;
   background: transparent;
+  color:white;
 }
 
 .submitSearch{
@@ -106,6 +98,7 @@ div{
   margin:0 1vh;
   border:none;
   background:transparent;
+  cursor: pointer;
 }
 .submitSearch img{
   height:100%;
@@ -116,7 +109,7 @@ div{
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: center;
-  height:30vh;
+  height:fit-content;
 }
 
 .keyword{
@@ -126,7 +119,7 @@ div{
 .keyword span{
   margin:0 0 0 1vw;
   color:#545459;
-
+  cursor: pointer;
 }
 
 #colorfilter{
@@ -150,5 +143,11 @@ span{
   background: transparent;
   color:white;
   font-weight: 400;
+}
+
+@media screen and (max-width:640px){
+  .submitSearch{
+    height: 3vh;
+  }
 }
 </style>

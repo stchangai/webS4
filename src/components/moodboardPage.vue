@@ -1,52 +1,49 @@
 <template>
   <div :id="id" class="moodboardPage">
+    <!-- <span id="backHome" v-on:click="GoBackHome">Retour</span>
     <div id="background">
+      <div id="overlay"></div>
        <h2 id="title">{{msg}}</h2>
     </div>
-    <Filters />
+    <Filters/> -->
+    <Window class="window"/>
     <Moodboard />
-    <!--<div id="board"></div>-->
-
   </div>
 </template>
 
 <script>
-// import axios from 'axios'
-// import {getImageRandom} from '@/services/api/pixabayApi.js'
 import Moodboard from './Moodboard.vue'
-import Filters from './filters.vue'
+// import Filters from './filters.vue'
+import Window from './Window.vue'
 export default {
   name: 'moodboardPage',
   props: {
     msg: String,
-    id: String
+    id: String,
   },
   components: {
     Moodboard,
-    Filters
+    // Filters,
+    Window
   },
   data() {
         return {
           imageData:[],
           url:null,
+          colorBg:null,
         }
       },
-  // created() {
-  //   this.retrieveImageRandom()
-  //   // axios
-  //   //     .get(
-  //   //         'https://api.unsplash.com/photos/random/?client_id=QCpQmMd34xHiP1qm3UlvbOFySNj3GamhpHOCxVwUurg')
-  //   //     .then(response => (this.url = response.data.urls.full));
-  // },
-  // methods: {
-  //   async retrieveImageRandom(){
-  //       this.imageData = await getImageRandom(axios)
-  //       this.url = this.imageData.data.urls.full
-  //   }
-  // }
+  created() {
+    this.colorBg = localStorage.getItem("colorImg1");
+  },
   mounted(){
+      let root = document.documentElement;
+      root.style.setProperty('--bg', this.colorBg);
   },
   methods: {
+    GoBackHome: function(){
+      window.location.reload();
+    }
   }
 }
 
@@ -54,6 +51,10 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+:root {
+  --bg: rgba(139,146,155, 42%);
+  --mouse-y: 0px;
+}
 h2 {
   margin: 40px 0 0;
 }
@@ -64,37 +65,73 @@ h2 {
   height:98vh;
   padding:1vh 2vw;
   z-index: 0;
+  position:relative;
   /* background-color:pink; */
 }
-
+/* 
 #background{
-  width:85vw;
+  // width:85vw; 
+  width:500px;
   height:100vh;
-  background-color: rgba(139,146,155, 42%);/*#A4ABB5;*/
+  background-color: rgba(139,146,155, 42%);
+  background-color:var(--bg);
   position:absolute;
   top:0;
   left:0;
-  z-index: -2;
+  z-index: -10012;
+}
+#overlay{
+  position:absolute;
+  background:rgba(0,0,0,0.2);
+  width:100%;
+  height:100vh;
+  z-index:-2;
 }
 
 #title{
   color: white;
-  /* background: gray; */
+ 
   width: fit-content;
-  /*margin: 3vh auto;*/
+  
   margin:3vh;
   padding:2vh;
   font-family: 'Raleway';
   font-weight:300;
   font-size: 1.75rem;
   opacity:100%;
+  display:flex;
+  justify-content: flex-start;
+  text-align:left;
 }
 
-/* #board{
-  height: 75vh;
-  width: 75vw;
-  background: repeat center/30% url(../assets/img/grid2.jpg);
-  margin-bottom: 10vh;
-  z-index: -2;
+#backHome{
+  position:absolute;
+  bottom:2vh;
+  left:2vw;
+  font-family: 'Raleway', serif;
+  color:white;
+  padding:1vh;
+}
+#backHome:hover{
+  cursor: pointer;
 } */
+
+@media screen and (max-width:640px){
+  .moodboardPage{
+    background-color:var(--bg);
+    justify-content: end;
+  }
+  .window{
+    position:absolute;
+    top:0;
+    left:-40vh;
+    width: 400px;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index:10;
+    transition: 2s left ease;
+  }
+}
 </style>

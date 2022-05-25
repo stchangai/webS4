@@ -34,7 +34,8 @@ a {
     top:0;
     position:absolute;
     color:white;
-    z-index: 5;
+    z-index: 1005;
+    font-weight: 400;
     transition:top 5s ease;
 }
 </style>
