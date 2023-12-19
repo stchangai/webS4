@@ -3,8 +3,8 @@
     <div id="keywords">
       <span>Rechercher un mot-clé</span>
       <div>
-        <input class="search" type="text" v-model="keywords">
-        <button v-on:click="UseKeyword" class="submitSearch"><img src="../assets/img/loupe.png" alt="icone loupe de recherche"></button>
+        <input class="search" type="text" v-model="keywords" @keyup.enter="UseKeyword">
+        <button v-on:click="UseKeyword" class="submitSearch"><img src="../assets/img/icon-white-loupe.svg" alt="icone loupe de recherche"></button>
       </div>
       <div class="keywords">
             <span v-for="keyword in words" :key="keyword" class="keyword">{{keyword}}<span v-on:click="deleteKeyword(keyword)">X</span></span>
@@ -34,9 +34,11 @@ export default {
   },
   methods:{
     UseKeyword:function(){
-      this.words.push(this.keywords);
-      this.$root.$emit('SendKeywords', this.keywords);
-      this.keywords='';
+      if(this.keywords){
+        this.words.push(this.keywords);
+        this.$root.$emit('SendKeywords', this.keywords);
+        this.keywords='';
+      }
     },
     resetFilter:function(){
       this.$root.$emit("ResetFilters", '');
@@ -101,8 +103,7 @@ div{
   cursor: pointer;
 }
 .submitSearch img{
-  height:100%;
-  opacity:50%;
+  height:80%;
 }
 .keywords{
   display:flex;
