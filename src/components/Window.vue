@@ -83,6 +83,10 @@ export default {
   cursor: pointer;
 }
 
+#OpenWindow{
+  display: none;
+}
+
 @media screen and (max-width:640px){
 
   #background{
@@ -94,6 +98,7 @@ export default {
     left:0 !important;
   }
   #OpenWindow{
+    display: block;
     position:absolute;
     bottom:2vh;
     right:2vw;
