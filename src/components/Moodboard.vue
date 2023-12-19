@@ -1,7 +1,7 @@
 <template>
   <div id="board" v-on:SendKeywords="addKeyword">
-    <div class="moodboardImg" v-for="image in selectedUrls" :key="image">
-      <img ref="img" :src="image" alt="image du moodboard">
+    <div v-drag @click="putFront($event)" class="moodboardImg" v-for="image in selectedUrls" :key="image">
+        <img ref="img" :src="image" alt="image du moodboard">
     </div>
   </div>
 </template>
@@ -27,6 +27,7 @@ export default {
       stringColor:'',
       selectedUrls:[],
       nbImg:'6',
+      zIndexCount: 13,
     }
   },
   mounted(){
@@ -76,7 +77,6 @@ export default {
           console.log(this.imagesData);
           this.imagesUrls = this.imagesData.map(x => x.urls.full)
 
-          console.log(this.imagesUrls);
           this.selectedUrls = this.GetASelectionFromArray(this.reception, this.nbImg);
       },
       addKeyword: function(value){
@@ -88,14 +88,10 @@ export default {
         let found = -1;
         let urls = Object.values(this.imagesUrls);
 
-        // console.log("size", this.size)
-
         if(this.imagesUrls.length >= Number(limitOfImages)){
           for (let i = 0; i < limitOfImages; i++) {
             let rand = Math.floor(Math.random() * this.imagesUrls.length);
-            // console.log("rand", rand);
             found = randomArray.findIndex(element => element == rand);
-            // console.log("found", found);
             if (found != -1) {
               i--
             } else {
@@ -112,7 +108,10 @@ export default {
           return urls;
         }
       },
-
+      putFront: function(event){
+        event.target.style.zIndex = this.zIndexCount;
+        this.zIndexCount++;
+      }
   }
 }
 </script>
