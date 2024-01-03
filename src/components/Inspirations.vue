@@ -1,28 +1,41 @@
 <template>
   <div id="board">
-    <div class="moodboardImg" v-for="image in ImagesDataSorted" :key="image.id" >
+    <div class="moodboardImg" v-for="image in imagesData" :key="image.id" >
       <img ref="img" :src="image.urls.small" :alt="image.alt_description" >
     </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'Inspirations',
   props: {
     title: String,
     color : String,
-    ImagesDataSorted : Array,
+    imagesData : Array,
+    scrollPosition: Number,
+    loading: Boolean,
   },
+  emits: ['getNextPage'],
   data(){
     return{
-      imagesData:[],
-      
+      pageCount: 1,    
+      requestApiLimit: 15, 
     }
   },
   mounted(){
     let root = document.documentElement;
-    root.style.setProperty('--bg', this.color);
+    root.style.setProperty('--bg', this.color); // get the main color of the random image to put it in color background of the page
+    // infinite scroll
+    window.addEventListener('scroll', () => {
+      // last condition --> restraint the number of requests to reach the API (50 requests/h on Unsplash)
+      if (this.scrollPosition + window.innerHeight + window.scrollY >=  this.scrollPosition + document.body.offsetHeight && !this.loading && this.pageCount < this.requestApiLimit) {
+        this.pageCount++;
+        this.$emit('isLoading', true);
+        this.$emit('getNextPage', this.pageCount)
+      }
+    })
   },
   
   methods: {

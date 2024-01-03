@@ -6,7 +6,7 @@
        <h2 id="title">{{msg}}</h2>
        <ImagesOptions :imagesSortType.sync="imagesSortType" />
     </div>
-    <Inspirations :title="msg" :color="colorBg" :ImagesDataSorted="imagesOrganizedData" />
+    <Inspirations :title="msg" :color="colorBg" :imagesData="imagesData" :scrollPosition="scrollPosition" :loading="loading" @getNextPage="setNewPageCount" @isLoading="setLoadingValue" />
   </div>
 </template>
 
@@ -25,31 +25,24 @@ export default {
     Inspirations,
     ImagesOptions
   },
+  watch:{
+    imagesSortType : function(newImagesSortType){
+      this.sortBy(newImagesSortType);
+    }
+  },
   created(){
       this.retrieveImagesData(axios)
       // this.colorBg = localStorage.getItem("colorImg1");
-  },
-  computed:{
-    imagesOrganizedData: function(){
-      console.log("in imagesOrganizedData", this.imagesSortType)
-      //tri par la plus récente ou par la plus likée
-      const field = ["mostLiked"].includes(this.imagesSortType) ? 'likes' : '';
-
-      if(field == ''){ //filtrage par défaut de l'API par le plus récent
-        return this.imagesData
-      }
-      // copie de imagesData que je vais pouvoir ranger par nombre de likes
-      let data = [...this.imagesData]
-      const comparator = (a,b) => a[field] - (b[field])
-      return data.sort(comparator)
-    }
   },
   data() {
         return {
           imagesData:[],
           url:null,
           colorBg:null || localStorage.getItem("colorImg2"),
-          imagesSortType: localStorage.getItem("imagesSortType") || "lastestUpdated"
+          imagesSortType: localStorage.getItem("imagesSortType") || "lastest",
+          pageCount: 1,
+          scrollPosition: 0,
+          loading: false,
         }
       },
   mounted(){
@@ -59,8 +52,24 @@ export default {
   },
   methods: {
     async retrieveImagesData(){
-        this.imagesData = await GetAllImages(axios)
+        this.imagesData.push(...await GetAllImages(axios, this.pageCount, this.imagesSortType))
       },
+    async setNewPageCount(pageCount){
+      this.pageCount = pageCount;
+      this.retrieveImagesData(axios);
+      this.scrollPosition = window.scrollY;
+      window.resizeTo(window.innerWidth, document.body.scrollHeight);
+      window.scrollTo(0, this.scrollPosition);
+      this.loading = false;
+    },
+    setLoadingValue(){
+      this.loading = true;
+    },
+    sortBy(){
+      this.imagesData = [];
+      this.scrollPosition = 0;
+      this.retrieveImagesData(axios, this.pageCount, this.imagesSortType);
+    },
     GoBackHome: function(){
       window.location.reload();
     }

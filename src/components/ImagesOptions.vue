@@ -2,9 +2,8 @@
   <div id="inspiration_options">
     <label for="image-sort">Sort by : </label>
     <select :value="imagesSortType" name="imageSort" id="imageSort" v-on:input="onImagesSortTypeChanged">
-      <option value="mostLiked">Most Liked</option>
-      <!-- <option value="mostDownloaded">Most Downloaded</option> -->
-      <option value="lastestUpdated">Latest Updated</option>
+      <option value="popular">Most Popular</option>
+      <option value="lastest">Latest Updated</option>
     </select>
   </div>
 </template>
@@ -15,13 +14,9 @@ export default {
   props: {
     imagesSortType:String
   },
-  watch:{
-    imagesSortType : function(newImagesSortType){
-      localStorage.setItem("imagesSortType", newImagesSortType)
-    }
-  },
   methods:{
     onImagesSortTypeChanged(event) {
+      localStorage.setItem("imagesSortType", event.target.value)
 			this.$emit('update:imagesSortType', event.target.value) 
 		},
   }

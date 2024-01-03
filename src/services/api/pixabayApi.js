@@ -18,8 +18,8 @@ export async function getImagesByKeywords(axios, keywords, colors) {
   return images;
 }
 
-export async function GetAllImages(axios) {
+export async function GetAllImages(axios, pageCount = 1, orderBy = 'popular') {
   const allImages = await axios.get(
-      `https://api.unsplash.com/photos?client_id=QCpQmMd34xHiP1qm3UlvbOFySNj3GamhpHOCxVwUurg&per_page=32`);
+      `https://api.unsplash.com/photos?client_id=QCpQmMd34xHiP1qm3UlvbOFySNj3GamhpHOCxVwUurg&per_page=12&page=` + pageCount + `&order_by=` + orderBy);
   return allImages.data;
 }
