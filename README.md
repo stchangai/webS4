@@ -1,4 +1,4 @@
-# projet_web
+# projet_web - MoodBoard
 
 ## Project setup
 ```
