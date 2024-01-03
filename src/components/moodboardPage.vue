@@ -65,13 +65,13 @@ h2 {
 @media screen and (max-width:640px){
   .moodboardPage{
     background-color:var(--bg);
-    justify-content: end;
+    justify-content: center;
   }
   .window{
     position:absolute;
     top:0;
-    left:-40vh;
-    width: 400px;
+    left:-90%;
+    width: 100%;
     height: 100vh;
     display: flex;
     justify-content: center;

@@ -87,11 +87,12 @@ export default {
 
   #background{
     z-index: -1;
-    width:400px;
+    width:100%;
   }
 
   .open{
-    left:0 !important;
+    left:0% !important;
+    overflow-y: hidden;
   }
   #OpenWindow{
     display: block;
