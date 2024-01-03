@@ -9,9 +9,6 @@
 <script>
 export default {
   name: 'ColorChip',
-  props: {
-    // msg: String
-  },
   data(){
     return{
       colors : [
@@ -27,25 +24,10 @@ export default {
         {color : "teal", value: "#1489BE"},
         {color : "blue", value: "#30426E"}
       ],
-      // colors : [
-      //   {"black_and_white" : "url(../assets/img/black_and_white.png)"}, 
-      //   {"black" : "#000000"}, 
-      //   {"white" : "#FFFFFF"}, 
-      //   {"yellow": "#FFEE59"}, 
-      //   {"orange":"#ff7400"}, 
-      //   {"red": "#A33426"}, 
-      //   {"purple" : "#7C5879"}, 
-      //   {"magenta" : "#FFBDBD"}, 
-      //   {"green" : "#80B86C"}, 
-      //   {"teal" : "#1489BE"}, 
-      //   {"blue" : "#30426E"}
-      // ]
     }
   },
   mounted(){
-    console.log(this.colors);
-    this.$root.$on('ResetFilters', data => {
-      console.log(data)
+    this.$root.$on('ResetFilters', () => {
       let selectedElements = document.querySelectorAll(".selected");
       if(selectedElements.length != 0){ selectedElements.forEach(element => element.classList.remove("selected"))}
     })

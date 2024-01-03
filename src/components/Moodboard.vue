@@ -1,5 +1,5 @@
 <template>
-  <div id="board" v-on:SendKeywords="addKeyword">
+  <div id="board">
     <div v-drag @click="putFront($event)" class="moodboardImg" v-for="image in selectedUrls" :key="image">
         <img ref="img" :src="image" alt="image du moodboard">
     </div>
@@ -32,23 +32,16 @@ export default {
   },
   mounted(){
     this.$root.$on('SendKeywords', data => {
-      console.log("hello");
-      this.keywords.push(data);
-      console.log(this.keywords)
-     
+      this.keywords.push(data);     
       this.retrieveImageByKeywords(this.stringColor);      
     });
     this.$root.$on('SendColors', data => {
       this.colors.push(data);
-      console.log(this.colors)
-
       if(this.stringColor !== ''){this.stringColor = '';}
       this.stringColor += this.colors[this.colors.length-1];
-      console.log(typeof this.stringColor);
       this.retrieveImageByKeywords(this.stringColor);
     });
-    this.$root.$on('ResetFilters', data => {
-      console.log(data)
+    this.$root.$on('ResetFilters', () => {
       this.keywords = [];
       this.stringColor = '';
       this.retrieveImageByKeywords(this.stringColor);
@@ -61,9 +54,7 @@ export default {
     });
 
     this.$root.$on('SendNbImg', data => {
-      console.log(data);
       this.nbImg =data;
-      console.log(this.nbImg)
       this.GetImages();
     });
   },
@@ -74,13 +65,9 @@ export default {
       async retrieveImageByKeywords(color){
           this.reception = await getImagesByKeywords(axios, this.keywords, color);
           this.imagesData = this.reception.data.results;
-          console.log(this.imagesData);
           this.imagesUrls = this.imagesData.map(x => x.urls.full)
 
           this.selectedUrls = this.GetASelectionFromArray(this.reception, this.nbImg);
-      },
-      addKeyword: function(value){
-        console.log(value)
       },
       GetASelectionFromArray: function(images, limitOfImages) {
         let randomArray = [];
@@ -99,7 +86,6 @@ export default {
             }
           }
           
-          console.log("url = ", urls[0])
           for (let i = 0; i < randomArray.length; i++) {
             selectedImages[i] = urls[randomArray[i]]
           }
@@ -129,18 +115,13 @@ export default {
   grid-template-rows: repeat(3, 1fr);
   grid-auto-flow: column;
   position:relative;
-  /* opacity:0.7; */
   column-gap: 10px;
   row-gap: 15px;
   margin-left: 2vw;
 }
 
 img{
-  /* height:auto;
-  width:100%; */
-   /* align-self: stretch; */
    z-index:12;
-   /* height: 120%; */
    height: 100%;
   width: fit-content;
   box-shadow: 7px 4px 1px rgba(0, 0, 0, 0.5);
@@ -152,14 +133,8 @@ img:hover{
 
 .moodboardImg{
   position:relative;
-  /* width:fit-content;
-  height:fit-content; */
   overflow: hidden;
-  /* border: solid 20px white;
-  border-left: solid 10px white; */
   margin: 1vh;
-  /* box-shadow: 7px 4px 1px rgba(0, 0, 0, 0.5); */
-  /* background:white; */
   height: 100%;
   display: flex;
   justify-content: center;

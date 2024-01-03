@@ -29,7 +29,6 @@ export default {
     let hello = document.querySelectorAll('.card .card')[1];
     let elem = document.getElementsByClassName('title')[0];
     hello.addEventListener("mouseover", function(){
-      //console.log(hello)
       elem.style.opacity = "0";
     })
     document.querySelectorAll('.card .card')[0].addEventListener("mouseover", function() {
@@ -96,7 +95,6 @@ export default {
   width: 120vw;
 }
 .title{
-  /*position:absolute;*/
   color:white;
   background-color:rgba(0, 0, 0, 0.2);
   padding: 1vh;

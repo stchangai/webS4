@@ -46,7 +46,6 @@ export default {
         this.imageData = await getImageRandom(axios)
         this.url1 = this.imageData.data[0].urls.full
         this.url2 = this.imageData.data[1].urls.full
-        console.log(this.imageData.data[0].color)
         localStorage.setItem("colorImg1", this.imageData.data[0].color)
         localStorage.setItem("colorImg2", this.imageData.data[1].color)
         localStorage.setItem("url1", this.url1)
@@ -67,10 +66,6 @@ export default {
       document.getElementsByClassName("header")[0].classList.add("hideTitle");
 
     },
-    addIndex:function(value){
-      console.log("addIndex", value)
-      document.getElementById("moodboard").classList.add("putForward");
-    }
   }
 }
 </script>

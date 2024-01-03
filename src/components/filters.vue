@@ -46,7 +46,6 @@ export default {
       this.words=[];
       this.heightData="0";
       this.widthData="0";
-      console.log(this.heightData)
     },
     deleteKeyword:function(value){
       this.words.splice(this.words.findIndex(element => element == value),1);
@@ -63,12 +62,10 @@ export default {
 <style scoped>
 #filters{
   height:75vh;
-  /* width:20vw; */
   width:268px;
   margin-bottom: 10vh;
   font-family: "Raleway";
   font-weight:400;
-  /* color: #545459; */
   color:white;
   display: flex;
   flex-direction: column;

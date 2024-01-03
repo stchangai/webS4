@@ -36,7 +36,6 @@ export default {
 <style scoped>
 
 #background{
-  /* width:85vw; */
   width:500px;
   height:100vh;
   background-color: rgba(139,146,155, 42%);/*#A4ABB5;*/
@@ -56,9 +55,7 @@ export default {
 
 #title{
   color: white;
-  /* background: gray; */
   width: fit-content;
-  /*margin: 3vh auto;*/
   margin:3vh;
   padding:2vh;
   font-family: 'Raleway';
@@ -77,7 +74,6 @@ export default {
   font-family: 'Raleway', serif;
   color:white;
   padding:1vh;
-  /* background-color:rgba(0,0,0,0.2) */
 }
 #backHome:hover{
   cursor: pointer;

@@ -60,14 +60,9 @@ export default {
 }
 
 img{
-  /* height:auto;
-  width:100%; */
-   /* align-self: stretch; */
    z-index:12;
-   /* height: 120%; */
    height: 100%;
   width: fit-content;
-  /* box-shadow: 7px 4px 1px rgba(0, 0, 0, 0.5); */
 }
 
 img:hover{

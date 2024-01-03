@@ -35,7 +35,6 @@ select{
   border: none;
   background: transparent;
   color:white;
-  /* padding-bottom: 1vh; */
   
 }
 label{

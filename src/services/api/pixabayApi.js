@@ -5,7 +5,6 @@ export async function getImageRandom(axios) {
 }
 
 export async function getImagesByKeywords(axios, keywords, colors) {
-  console.log(keywords, colors)
   let labelColor;
   if (colors == '') {
     labelColor = ''

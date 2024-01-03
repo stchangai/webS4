@@ -6,7 +6,7 @@
        <h2 id="title">{{msg}}</h2>
        <ImagesOptions :imagesSortType.sync="imagesSortType" />
     </div>
-    <Inspirations :title="msg" :color="colorBg" :imagesData="imagesData" :scrollPosition="scrollPosition" :loading="loading" @getNextPage="setNewPageCount" @isLoading="setLoadingValue" />
+    <Inspirations :title="msg" :color="colorBg" :imagesData="imagesData" :scrollPosition="scrollPosition" :loading="loading" @getNextPage="getNextPageImages" @isLoading="setLoadingValue" />
   </div>
 </template>
 
@@ -32,7 +32,6 @@ export default {
   },
   created(){
       this.retrieveImagesData(axios)
-      // this.colorBg = localStorage.getItem("colorImg1");
   },
   data() {
         return {
@@ -54,11 +53,11 @@ export default {
     async retrieveImagesData(){
         this.imagesData.push(...await GetAllImages(axios, this.pageCount, this.imagesSortType))
       },
-    async setNewPageCount(pageCount){
+    async getNextPageImages(pageCount){
       this.pageCount = pageCount;
       this.retrieveImagesData(axios);
-      this.scrollPosition = window.scrollY;
-      window.resizeTo(window.innerWidth, document.body.scrollHeight);
+      this.scrollPosition = window.scrollY; // for the infinite scrolling to continue to visualize the images' list without glitch to the top
+      window.resizeTo(window.innerWidth, document.body.scrollHeight); // extendes the size of the page
       window.scrollTo(0, this.scrollPosition);
       this.loading = false;
     },
@@ -66,6 +65,7 @@ export default {
       this.loading = true;
     },
     sortBy(){
+      // reset the infinite scrolling to begin the visualisation with new order from the top of the page
       this.imagesData = [];
       this.scrollPosition = 0;
       this.retrieveImagesData(axios, this.pageCount, this.imagesSortType);
@@ -121,9 +121,7 @@ h2 {
 
 #title{
   color: white;
-  /* background: gray; */
   width: fit-content;
-  /*margin: 3vh auto;*/
   margin:3vh;
   padding:2vh;
   font-family: 'Raleway';
